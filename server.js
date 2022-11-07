@@ -1,5 +1,6 @@
 const express = require("express");
 const { Router } = express;
+const { engine } = require("express-handlebars");
 const app = express();
 const routerProductos = Router();
 const port = process.env.PORT || 8080;
@@ -7,6 +8,17 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.set("view engine", "hbs");
+app.set("views", "./views");
+app.engine(
+  "hbs",
+  engine({
+    extname: ".hbs",
+    defaultLayout: "index.hbs",
+    layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname + "/views/partials",
+  })
+);
 const Contenedor = require("./ClaseContenedor");
 const contenedor = new Contenedor("productos.json");
 
@@ -16,16 +28,14 @@ app.listen(port, () => {
 
 app.use("/api/productos", routerProductos);
 
-routerProductos.get("/", async (req, res) => {
-  const productos = await contenedor.getAllProducts();
-  res.json(productos);
+app.get("/", async (req, res) => {
+  const products = await contenedor.getAllProducts();
+  res.render("index", { products: products });
 });
 
-routerProductos.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const productos = await contenedor.getProducts(id);
-  const response = productos ? productos : { error: "producto no encontrado" };
-  res.json(response);
+routerProductos.get("/", async (req, res) => {
+  const products = await contenedor.getAllProducts();
+  res.render("productslist", { products: products });
 });
 
 routerProductos.post("/", async (req, res) => {
@@ -35,48 +45,9 @@ routerProductos.post("/", async (req, res) => {
   productos.map((item) => {
     item.id > id && (id = item.id);
   });
-  res.json(
-    `Se a guardado exitosamente el articulo ${body.title} con el ID: ${id + 1}`
-  );
+  res.render("exito");
 });
 
-routerProductos.put("/:id", async (req, res) => {
-  let response;
-  let producto;
-  const { id } = req.params;
-  const { body } = req;
-  const productos = await contenedor.editProducts(id, body);
-
-  productos.map((item) => {
-    item.id == id && (producto = item);
-  });
-
-  response = producto
-    ? `Se a editado exitosamente el articulo ID: ${id}`
-    : { error: "producto no encontrado" };
-  res.json(response);
-});
-
-routerProductos.delete("/:id", async (req, res) => {
-  let response;
-  let producto;
-  const { id } = req.params;
-  const productos = await contenedor.deleteProducts(id);
-
-  productos.map((item) => {
-    item.id == id && (producto = item);
-  });
-
-  response = producto
-    ? `Se a eliminado exitosamente el articulo ID: ${id}`
-    : { error: "producto no encontrado" };
-  res.json(response);
-});
-
-app.get("/", async (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-app.post("/newProducts", async (req, res) => {
-  res.json("New Products");
+routerProductos.get("/form", async (req, res) => {
+  res.render("form");
 });
