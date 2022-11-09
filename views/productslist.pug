@@ -1,0 +1,28 @@
+li 
+    a(href="/api/productos") Productos 
+    a(href="/api/productos/form") Cargar Productos
+    br
+br 
+
+table(style="border: #b2b2b2 1px solid;")
+    caption Listado de productos
+    thead
+        tr
+            th 
+                strong ID
+            th 
+                strong Title
+            th 
+                strong Price
+            th 
+                strong Thumbnail
+
+            each val in products          
+                tr
+                    td=val.id                
+                    td=val.title
+                    td=val.price
+                    td
+                        img(src=val.thumbnail class="product-img" width="100" height="100")
+
+

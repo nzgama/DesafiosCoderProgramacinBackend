@@ -8,17 +8,9 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.set("view engine", "hbs");
+app.set("view engine", "pug");
 app.set("views", "./views");
-app.engine(
-  "hbs",
-  engine({
-    extname: ".hbs",
-    defaultLayout: "index.hbs",
-    layoutsDir: __dirname + "/views/layouts",
-    partialsDir: __dirname + "/views/partials",
-  })
-);
+
 const Contenedor = require("./ClaseContenedor");
 const contenedor = new Contenedor("productos.json");
 
@@ -30,7 +22,7 @@ app.use("/api/productos", routerProductos);
 
 app.get("/", async (req, res) => {
   const products = await contenedor.getAllProducts();
-  res.render("index", { products: products });
+  res.render("layouts/index.pug", { products: products });
 });
 
 routerProductos.get("/", async (req, res) => {
@@ -39,13 +31,14 @@ routerProductos.get("/", async (req, res) => {
 });
 
 routerProductos.post("/", async (req, res) => {
+  console.log("hola");
   let id = 0;
   const { body } = req;
   const productos = await contenedor.saveProducts(body);
   productos.map((item) => {
     item.id > id && (id = item.id);
   });
-  res.render("exito");
+  res.render("exito.pug");
 });
 
 routerProductos.get("/form", async (req, res) => {
