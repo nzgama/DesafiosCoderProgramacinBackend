@@ -8,7 +8,7 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 app.set("views", "./views");
 
 const Contenedor = require("./ClaseContenedor");
@@ -22,25 +22,24 @@ app.use("/api/productos", routerProductos);
 
 app.get("/", async (req, res) => {
   const products = await contenedor.getAllProducts();
-  res.render("layouts/index.pug", { products: products });
+  res.render("pages/index.ejs", { products: products });
 });
 
 routerProductos.get("/", async (req, res) => {
   const products = await contenedor.getAllProducts();
-  res.render("productslist", { products: products });
+  res.render("pages/productos.ejs", { products: products });
 });
 
 routerProductos.post("/", async (req, res) => {
-  console.log("hola");
   let id = 0;
   const { body } = req;
   const productos = await contenedor.saveProducts(body);
   productos.map((item) => {
     item.id > id && (id = item.id);
   });
-  res.render("exito.pug");
+  res.render("pages/exito.ejs");
 });
 
 routerProductos.get("/form", async (req, res) => {
-  res.render("form");
+  res.render("pages/form.ejs");
 });
