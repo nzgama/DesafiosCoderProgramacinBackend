@@ -5,7 +5,12 @@ const app = express();
 const routerProductos = Router();
 const port = process.env.PORT || 8080;
 
+//SOCKET
+const httpServer = require("http").createServer(app);
+const io = require("socket.io")(httpServer);
+
 app.use(express.json());
+app.use(express.static(__dirname + "/views"));
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "hbs");
@@ -22,32 +27,28 @@ app.engine(
 const Contenedor = require("./ClaseContenedor");
 const contenedor = new Contenedor("productos.json");
 
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
-});
-
-app.use("/api/productos", routerProductos);
+httpServer.listen(8080, () =>
+  console.log(`Example app listening on port http://localhost:${port}`)
+);
 
 app.get("/", async (req, res) => {
   const products = await contenedor.getAllProducts();
-  res.render("index", { products: products });
+  res.render("index.hbs", { products: products });
 });
 
-routerProductos.get("/", async (req, res) => {
-  const products = await contenedor.getAllProducts();
-  res.render("productslist", { products: products });
-});
-
-routerProductos.post("/", async (req, res) => {
-  let id = 0;
-  const { body } = req;
-  const productos = await contenedor.saveProducts(body);
-  productos.map((item) => {
-    item.id > id && (id = item.id);
+io.on("connection", (socket) => {
+  socket.on("product", async (data) => {
+    let id = 0;
+    const body = data;
+    const nweProductos = await contenedor.saveProducts(body);
+    const products = await contenedor.getAllProducts();
+    io.emit("products", products);
   });
-  res.render("exito");
-});
 
-routerProductos.get("/form", async (req, res) => {
-  res.render("form");
+  socket.on("show", async (data) => {
+    if (data) {
+      const products = await contenedor.getAllProducts();
+      io.emit("products", products);
+    }
+  });
 });
