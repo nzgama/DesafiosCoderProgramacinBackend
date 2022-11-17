@@ -2,6 +2,8 @@ const socket = io();
 
 socket.emit("show", true);
 
+socket.emit("showMensajes", true);
+
 const newProduct = () => {
   const title = document.getElementById("title").value;
   const price = document.getElementById("price").value;
@@ -10,8 +12,6 @@ const newProduct = () => {
 };
 
 socket.on("products", (data) => {
-  console.log(data);
-
   let html = "";
   const productsTable = document.getElementById("productsTable");
   data.forEach((item) => {
@@ -33,3 +33,21 @@ socket.on("products", (data) => {
                                 </thead>
                                 ${html}`;
 });
+
+socket.on("msg-list", (data) => {
+  let html = "";
+  data.forEach((obj) => {
+    html += `
+    <div>
+      <p><b style="color:blue;">${obj.email}</b> <b style="color:red;">[${obj.fecha}]:</b> <i style="color:green;">${obj.mensaje}</i></p>
+    </div>
+    `;
+  });
+  document.getElementById("div-list-msgs").innerHTML = html;
+});
+
+const enviarMsg = () => {
+  const msgParaEnvio = document.getElementById("input-msg").value;
+  const email = document.getElementById("input-email").value;
+  socket.emit("msg", { email: email, mensaje: msgParaEnvio });
+};

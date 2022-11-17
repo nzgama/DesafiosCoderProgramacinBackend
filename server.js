@@ -27,6 +27,9 @@ app.engine(
 const Contenedor = require("./ClaseContenedor");
 const contenedor = new Contenedor("productos.json");
 
+const Mensajes = require("./ClaseMensajes");
+const mensajes = new Mensajes("mensajes.json");
+
 httpServer.listen(8080, () =>
   console.log(`Example app listening on port http://localhost:${port}`)
 );
@@ -50,5 +53,29 @@ io.on("connection", (socket) => {
       const products = await contenedor.getAllProducts();
       io.emit("products", products);
     }
+  });
+  /***************CHAT**************/
+
+  socket.on("showMensajes", async (data) => {
+    if (data) {
+      const msgs = await mensajes.getAllMensajes();
+      io.sockets.emit("msg-list", msgs);
+    }
+  });
+
+  socket.on("msg", async (data) => {
+    const now = new Date();
+    const msgs = await mensajes.getAllMensajes();
+
+    msgs.push({
+      socketid: socket.id,
+      email: data.email,
+      mensaje: data.mensaje,
+      fecha: `${now.toUTCString()}`,
+    });
+
+    const nweMensaje = await mensajes.saveMensajes(msgs);
+
+    io.sockets.emit("msg-list", msgs);
   });
 });
