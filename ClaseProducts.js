@@ -2,22 +2,22 @@ const fs = require("fs");
 const express = require("express");
 const { response } = require("express");
 const app = express();
-const { options } = require("./options/SQLite3");
+const { options } = require("./options/mariaDB");
 const knex = require("knex")(options);
-class Mensajes {
+
+class Products {
   constructor() {}
 
   async createTabla() {
     knex.schema
-      .createTable("messages", (table) => {
+      .createTable("products", (table) => {
         table.increments("id"),
-          table.string("socketid"),
-          table.string("email"),
-          table.string("mensaje"),
-          table.string("fecha");
+          table.string("title"),
+          table.string("thumbnail"),
+          table.decimal("price", 10, 2);
       })
       .then(() => {
-        console.log("table messages create");
+        console.log("table products create");
       })
       .catch((err) => {
         console.log(err);
@@ -27,9 +27,9 @@ class Mensajes {
       });
   }
 
-  async getAllMensajes() {
-    const messages = await knex
-      .from("messages")
+  async getAllProducts() {
+    const products = await knex
+      .from("products")
       .select("*")
       .then((res) => {
         return res;
@@ -41,19 +41,18 @@ class Mensajes {
         //knex.destroy();
       });
 
-    return messages;
+    return products;
   }
 
-  async saveMensajes(data, date) {
-    knex("messages")
+  async saveProducts(body) {
+    knex("products")
       .insert({
-        socketid: data.socketid,
-        email: data.email,
-        mensaje: data.mensaje,
-        fecha: date,
+        title: body.title,
+        thumbnail: body.thumbnail,
+        price: body.price,
       })
       .then((res) => {
-        console.log(`message save ID: ${res}`);
+        console.log(`product save ID: ${res}`);
       })
       .catch((err) => {
         console.log(err);
@@ -64,4 +63,4 @@ class Mensajes {
   }
 }
 
-module.exports = Mensajes;
+module.exports = Products;

@@ -1,8 +1,8 @@
 const socket = io();
 
-socket.emit("show", true);
+socket.emit("showProducts", true);
 
-socket.emit("showMensajes", true);
+socket.emit("showMessages", true);
 
 const newProduct = () => {
   const title = document.getElementById("title").value;
