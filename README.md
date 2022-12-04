@@ -6,8 +6,8 @@ Utilizar la base de datos "ecommerce".
 - La copia de la base de datos se encuentra en el repositorio en la carpeta "mongoDB" con los 10 productos y mensajes cargados.
 - En caso de no poder inicar, en el documento "CrearEcommerce.md" se encuentran los comando para crear la base de datos y cargar las colecciones.
 - use ecommerce.
--Listar todos los documentos en cada colección "db.mensajes.find()" "db.productos.find()"
--Mostrar la cantidad de documentos almacenados en cada una de ellas "db.mensajes.estimatedDocumentCount()" "db.productos.estimatedDocumentCount()"
+- Listar todos los documentos en cada colección "db.mensajes.find()" "db.productos.find()"
+- Mostrar la cantidad de documentos almacenados en cada una de ellas "db.mensajes.estimatedDocumentCount()" "db.productos.estimatedDocumentCount()"
 
 ```
 ## CRUD Productos
