@@ -5,6 +5,8 @@ Utilizar la base de datos "ecommerce".
 ```sh
 - La copia de la base de datos se encuentra en el repositorio en la carpeta "mongoDB" con los 10 productos y mensajes cargados.
 
+- En caso de no poder inicar, en el documento "CrearEcommerce.md" se encuentran los comando para crear la base de datos y cargar las colecciones.
+
 - use ecommerce.
 ```
 ## CRUD Productos
@@ -20,7 +22,7 @@ D) db.productos.update({price: {$gt:4000}},{$set:{"stock":0}},{upsert:false,mult
 E) db.productos.deleteMany({price: {$lt:1000}})
 ```
 
-## Usuario sólo lectura
+## Usuario solo lectura
 Consultas
 ```sh
 - use admin
