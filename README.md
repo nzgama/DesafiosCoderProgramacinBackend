@@ -1,22 +1,20 @@
 # Desafíos Coderhouse Programación Backend
-## Desafío "NUESTRA PRIMERA BASE DE DATOS" 
+## Desafío "Mocks y Normalización" 
 ## Instalación
 Instale las dependencias e inicie el servidor.
 ```sh
--Crear la base de datos "test" en el servidor local de MySql.
--Ejecutar en el proyecto el comando "npm i".
+-Ejecutar en el proyecto el comando "npm start".
 ```
 ## Características
 Mensajes
 ```sh
-- Se creará la tabla "messages" en caso de no existir.
-- La tabla de los "messages" está hecha en SQLite3 en: "./DB/mydb.sqlite".
+- Los mensajes se guardaran en el erchivo "mensajes.js".
 - El archivo "ClaseMensajes.js" se encarga de manejar los eventos.
+- Los mensajes se intentar normalizar en el archivo "server.js" a partir de la linea 109.
 ```
 
 Productos
 ```sh
-- Se creará la tala "products" en caso de no existir.
-- La tabla de los "productos" está hecha en Mysql en el servidor Mysql local.
-- El archivo "ClaseProducts.js" se encarga de manejar los eventos.
+- En la url "http://localhost:8080/api/productos-test" se generara, 5 porductos al azar usando la libreria faker.
+- Los porductos se intentar crear en el archivo "server.js" a partir de la linea 54.
 ```
