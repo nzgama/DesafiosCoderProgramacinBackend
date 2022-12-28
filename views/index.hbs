@@ -1,5 +1,9 @@
 <br>
 
+<div>
+    <a href="/api/productos-test">Productos Random</a>
+</div>
+
 <h1>Ingres un productos</h1>
 
 <form id="formProducts" onsubmit="newProduct(); return false;">
@@ -29,6 +33,10 @@
 <h3>Chat</h3>
 <p>Envie sus mensajes.</p>
 <form onsubmit="enviarMsg();return false;">
+    <input id="input-nombre" placeholder="Nombre" required="true" />
+    <input id="input-apellido" placeholder="Apellido" required="true" />
+    <input id="input-edad" placeholder="Edad" required="true" />
+    <input id="input-alias" placeholder="Alias" required="true" />
     <input id="input-email" placeholder="E-mail" required="true"/><br />
     <input id="input-msg" placeholder="Mensaje" required="true"/>
     <input type="submit" value="ENVIAR!" />

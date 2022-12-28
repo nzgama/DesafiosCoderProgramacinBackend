@@ -1,0 +1,27 @@
+<br>
+
+<h1>Productos random</h1>
+
+<table style="border: #b2b2b2 1px solid;">
+    <caption>Listado de productos random</caption>
+
+
+    <thead>
+        <tr>
+            <th><strong>Nombre</strong></th>
+            <th><strong>Precio</strong></th>
+            <th><strong>Foto</strong></th>
+        </tr>
+    </thead>
+
+    {{#each products}}
+    <tr>
+
+        <td>{{this.nombre}}</td>
+        <td>${{this.precio}}</td>
+        <td>{{this.foto}}</td>
+
+    </tr>
+    {{/each}}
+</table>
+

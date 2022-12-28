@@ -35,11 +35,12 @@ socket.on("products", (data) => {
 });
 
 socket.on("msg-list", (data) => {
+  console.log(data);
   let html = "";
-  data.forEach((obj) => {
+  data["entities"]["posts"].forEach((obj) => {
     html += `
     <div>
-      <p><b style="color:blue;">${obj.email}</b> <b style="color:red;">[${obj.fecha}]:</b> <i style="color:green;">${obj.mensaje}</i></p>
+      <p><b style="color:blue;">${obj.author["id"]}</b> <b style="color:red;">[:]</b> <i style="color:green;">${obj.text}</i></p>
     </div>
     `;
   });
@@ -47,7 +48,21 @@ socket.on("msg-list", (data) => {
 });
 
 const enviarMsg = () => {
+  const nombre = document.getElementById("input-nombre").value;
+  const apellido = document.getElementById("input-apellido").value;
+  const edad = document.getElementById("input-edad").value;
+  const alias = document.getElementById("input-alias").value;
   const msgParaEnvio = document.getElementById("input-msg").value;
   const email = document.getElementById("input-email").value;
-  socket.emit("msg", { email: email, mensaje: msgParaEnvio });
+
+  socket.emit("msg", {
+    email: email,
+    mensaje: msgParaEnvio,
+    nombre: nombre,
+    apellido: apellido,
+    edad: edad,
+    alias: alias,
+  });
 };
+
+enviarMsg();
