@@ -106,23 +106,16 @@ io.on("connection", (socket) => {
 
       await mensajes.saveMensajes(msgs);
     }
-    let messages;
-
-    msgs.forEach((element) => {
-      console.log(element);
-      messages = element;
-    });
 
     const authorSchema = new schema.Entity("id");
     const textSchema = new schema.Entity("text");
 
-    const postSchema = new schema.Entity("messages", {
+    const postSchema = new schema.Entity("author", {
       authors: authorSchema,
       texts: textSchema,
     });
-    console.log(messages);
 
-    const normalizeBlogPost = normalize(messages, postSchema);
+    const normalizeBlogPost = normalize(msgs, postSchema);
 
     console.log(normalizeBlogPost);
 
