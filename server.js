@@ -107,18 +107,21 @@ io.on("connection", (socket) => {
       await mensajes.saveMensajes(msgs);
     }
 
-    const authorSchema = new schema.Entity("id");
+    console.log(msgs);
+
+    const authorSchema = new schema.Entity("author");
     const textSchema = new schema.Entity("text");
 
-    const postSchema = new schema.Entity("author", {
-      authors: authorSchema,
-      texts: textSchema,
+    const postSchema = {
+      author: authorSchema,
+      text: [textSchema],
+    };
+    let normalizeBlogPost;
+    await msgs.forEach((element) => {
+      normalizeBlogPost = normalize(element, postSchema);
+      console.log(normalizeBlogPost);
     });
 
-    const normalizeBlogPost = normalize(msgs, postSchema);
-
-    console.log(normalizeBlogPost);
-
-    io.sockets.emit("msg-list", normalizeBlogPost);
+    io.sockets.emit("msg-list", msgs);
   });
 });
