@@ -107,8 +107,6 @@ io.on("connection", (socket) => {
       await mensajes.saveMensajes(msgs);
     }
 
-    console.log(msgs);
-
     const authorSchema = new schema.Entity("author");
     const textSchema = new schema.Entity("text");
 
