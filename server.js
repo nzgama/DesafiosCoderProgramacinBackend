@@ -1,18 +1,29 @@
+const MongoStore = require("connect-mongo");
 const express = require("express");
-const { Router } = express;
-const { engine } = require("express-handlebars");
-
+const session = require("express-session");
 const faker = require("faker");
+const { engine } = require("express-handlebars");
+const app = express();
+
 faker.locale = "es";
 const { commerce, image } = faker;
 
-const { writeFile } = require("fs");
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://gamal:k7mkUTu7XBAOeWfp@cluster0.6j5lnox.mongodb.net/?retryWrites=true&w=majority",
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+    }),
+    secret: "secreto",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
-//const { normalize } = require("normalizr");
-//const { schema } = require("normalizr");
-
-const app = express();
-const routerProductos = Router();
 const port = process.env.PORT || 8080;
 
 //SOCKET
@@ -36,22 +47,26 @@ app.engine(
 );
 
 //CLASS
-const Products = require("./ClaseProducts");
 const Mensajes = require("./ClaseMensajes");
-const { schema } = require("normalizr");
-const { normalize } = require("normalizr");
-const products = new Products();
 const mensajes = new Mensajes("mensajes.json");
 
 httpServer.listen(8080, () =>
   console.log(`Example app listening on port http://localhost:${port}`)
 );
 
-app.get("/", async (req, res) => {
-  res.render("index.hbs");
+const auth = (req, res, next) => {
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    res.render("./layouts/login.hbs");
+  }
+};
+
+app.get("/", auth, (req, res) => {
+  res.render("index.hbs", { username: req.session.user });
 });
 
-app.get("/api/productos-test", async (req, res) => {
+app.get("/api/productos-test", auth, (req, res) => {
   let str = [];
   for (let i = 0; i < 5; i++) {
     str.push({
@@ -63,25 +78,27 @@ app.get("/api/productos-test", async (req, res) => {
   res.render("./layouts/productosRandom.hbs", { products: str });
 });
 
-io.on("connection", (socket) => {
-  socket.on("product", async (data) => {
-    await products.saveProducts(data);
-    const productsList = await products.getAllProducts();
-    io.emit("products", productsList);
-  });
+app.get("/login", (req, res) => {
+  const { username } = req.query;
+  if (!username) {
+    return res.send("login failed");
+  }
+  req.session.user = username;
+  req.session.admin = true;
+  res.render("index.hbs", { username: req.session.user });
+});
 
-  socket.on("showProducts", async (data) => {
-    if (data) {
-      let productsList = await products.getAllProducts();
-      productsList == undefined &&
-        (await products.createTabla(), (productsList = []));
-
-      io.emit("products", productsList);
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      res.send("no pudo deslogear");
+    } else {
+      res.render("./layouts/login.hbs");
     }
   });
+});
 
-  //***************CHAT**************//
-
+io.on("connection", (socket) => {
   socket.on("showMensajes", async (data) => {
     if (data) {
       const msgs = await mensajes.getAllMensajes();
@@ -103,23 +120,8 @@ io.on("connection", (socket) => {
         },
         text: data.mensaje,
       });
-
       await mensajes.saveMensajes(msgs);
     }
-
-    const authorSchema = new schema.Entity("author");
-    const textSchema = new schema.Entity("text");
-
-    const postSchema = {
-      author: authorSchema,
-      text: [textSchema],
-    };
-    let normalizeBlogPost;
-    await msgs.forEach((element) => {
-      normalizeBlogPost = normalize(element, postSchema);
-      console.log(normalizeBlogPost);
-    });
-
     io.sockets.emit("msg-list", msgs);
   });
 });

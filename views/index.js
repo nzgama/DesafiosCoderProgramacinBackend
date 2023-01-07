@@ -2,15 +2,7 @@ const socket = io();
 
 socket.emit("showMessages", true);
 
-const newProduct = () => {
-  const title = document.getElementById("title").value;
-  const price = document.getElementById("price").value;
-  const thumbnail = document.getElementById("thumbnail").value;
-  socket.emit("product", { title: title, price: price, thumbnail: thumbnail });
-};
-
 socket.on("msg-list", (data) => {
-  console.log(data);
   let html = "";
   data.forEach((obj) => {
     html += `

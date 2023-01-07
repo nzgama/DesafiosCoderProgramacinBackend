@@ -35,7 +35,7 @@ class Products {
         return res;
       })
       .catch((err) => {
-        //console.log(err);
+        console.log(err);
       })
       .finally(() => {
         //knex.destroy();
