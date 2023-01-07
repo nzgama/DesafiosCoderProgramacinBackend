@@ -4,6 +4,7 @@
 Instale las dependencias e inicie el servidor.
 ```sh
 -Ejecutar en el proyecto el comando "npm start".
+-Revisar la consola para acceder al "Home" de la app.
 ```
 ## Características
 Mensajes
@@ -17,4 +18,11 @@ Productos
 ```sh
 - En la url "http://localhost:8080/api/productos-test" se generara, 5 porductos al azar usando la libreria faker.
 - Los porductos se intenta crear en el archivo "server.js" a partir de la linea 54.
+```
+
+Sesión
+```sh
+- En la url "http://localhost:8080/login" se identifica el usario.
+- La sesion del usuario se guardaran en Mongo Atlas.
+- Cerrar la sesion del usuario la url "http://localhost:8080/login"
 ```

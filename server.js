@@ -85,15 +85,16 @@ app.get("/login", (req, res) => {
   }
   req.session.user = username;
   req.session.admin = true;
-  res.render("index.hbs", { username: req.session.user });
+  res.render("./layouts/hello.hbs", { username: req.session.user });
 });
 
 app.get("/logout", (req, res) => {
+  const oldUser = req.session.user;
   req.session.destroy((err) => {
     if (err) {
       res.send("no pudo deslogear");
     } else {
-      res.render("./layouts/login.hbs");
+      res.render("./layouts/bye.hbs", { username: oldUser });
     }
   });
 });
