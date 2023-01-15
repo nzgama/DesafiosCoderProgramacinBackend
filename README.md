@@ -20,8 +20,15 @@ Productos
 - Los porductos se intenta crear en el archivo "server.js" a partir de la linea 54.
 ```
 
+Usuarios
+```sh
+- la base de datos de usarios es mondoDB y se encuentra en mongodb atlas
+- Los usuarios se guardarn en la tabla Usuarios.
+```
+
 Sesión
 ```sh
+- la base de datos de sesiones es mondoDB y se encuentra en mongodb atlas
 - En la url "http://localhost:8080/login" se identifica el usario.
 - La sesion del usuario se guardaran en Mongo Atlas.
 - Cerrar la sesion del usuario la url "http://localhost:8080/login"
