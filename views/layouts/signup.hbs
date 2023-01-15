@@ -13,22 +13,23 @@
 <body>
     <div class="custom-container">
         <div class="jumbotron">
-            <h3 class="text-center text-primary">Login</h3><br>
-            <h3>{{message}}</h3>
-            <form action="/login" id="login" method="POST">
+            <h3 class="text-center text-primary">Signup</h3><br>
+            <form action="/signup" id="signup" method="POST">
                 <div class="form-group">
                     <label for="username">Username <span class="text-danger">*</span></label>
-                    <input type="username" class="form-control" name="username" id="username" placeholder="Username" required="true">
+                    <input type="username" class="form-control" name="username" id="username" placeholder="Username"
+                        required="true">
                 </div>
                 <div class="form-group">
                     <label for="password">Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="true">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password"
+                        required="true">
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-info btn-block">
+                    <input type="submit" value="signup" class="btn btn-info btn-block">
                 </div>
             </form>
-            <a href="/signup">signup</a>
+            <a href="/">Login</a>
         </div>
     </div>
 </body>

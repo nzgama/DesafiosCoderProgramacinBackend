@@ -3,10 +3,99 @@ const express = require("express");
 const session = require("express-session");
 const faker = require("faker");
 const { engine } = require("express-handlebars");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcrypt");
+const routes = require("./routes");
+const mongoose = require("mongoose");
+
 const app = express();
 
 faker.locale = "es";
 const { commerce, image } = faker;
+
+function isValidPassword(user, password) {
+  return bcrypt.compareSync(password, user.password);
+}
+
+function createHash(password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+}
+
+mongoose
+  .connect(
+    "mongodb+srv://gamal:k7mkUTu7XBAOeWfp@cluster0.6j5lnox.mongodb.net/?retryWrites=true&w=majority"
+  )
+  .then(() => console.log("Connected to DB"))
+  .catch((e) => {
+    console.error(e);
+    throw "can not connect to the db";
+  });
+
+passport.use(
+  "login",
+  new LocalStrategy((username, password, done) => {
+    Usuarios.findOne({ username }, (err, user) => {
+      if (err) return done(err);
+
+      if (!user) {
+        console.log("User Not Found with username " + username);
+        return done(null, false);
+      }
+
+      if (!isValidPassword(user, password)) {
+        console.log("Invalid Password");
+        return done(null, false);
+      }
+
+      return done(null, user);
+    });
+  })
+);
+
+passport.use(
+  "signup",
+  new LocalStrategy(
+    {
+      passReqToCallback: true,
+    },
+    (req, username, password, done) => {
+      Usuarios.findOne({ username: username }, function (err, user) {
+        if (err) {
+          console.log("Error in SignUp: " + err);
+          return done(err);
+        }
+
+        if (user) {
+          console.log("User already exists");
+          return done(null, false);
+        }
+
+        const newUser = {
+          username: username,
+          password: createHash(password),
+        };
+        Usuarios.create(newUser, (err, userWithId) => {
+          if (err) {
+            console.log("Error in Saving user: " + err);
+            return done(err);
+          }
+          console.log(user);
+          console.log("User Registration succesful");
+          return done(null, userWithId);
+        });
+      });
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  Usuarios.findById(id, done);
+});
 
 app.use(
   session({
@@ -23,6 +112,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const port = process.env.PORT || 8080;
 
@@ -49,6 +141,7 @@ app.engine(
 //CLASS
 const Mensajes = require("./ClaseMensajes");
 const mensajes = new Mensajes("mensajes.json");
+const Usuarios = require("./models/usuarios.js");
 
 httpServer.listen(8080, () =>
   console.log(`Example app listening on port http://localhost:${port}`)
@@ -78,26 +171,25 @@ app.get("/api/productos-test", auth, (req, res) => {
   res.render("./layouts/productosRandom.hbs", { products: str });
 });
 
-app.get("/login", (req, res) => {
-  const { username } = req.query;
-  if (!username) {
-    return res.send("login failed");
-  }
-  req.session.user = username;
-  req.session.admin = true;
-  res.render("./layouts/hello.hbs", { username: req.session.user });
-});
+app.get("/login", routes.getLogin);
 
-app.get("/logout", (req, res) => {
-  const oldUser = req.session.user;
-  req.session.destroy((err) => {
-    if (err) {
-      res.send("no pudo deslogear");
-    } else {
-      res.render("./layouts/bye.hbs", { username: oldUser });
-    }
-  });
-});
+app.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "faillogin" }),
+  routes.postLogin
+);
+
+app.get("/signup", routes.getSignup);
+
+app.post(
+  "/signup",
+  passport.authenticate("signup", { failureRedirect: "signup" }),
+  routes.postSignup
+);
+
+app.get("/faillogin", routes.getFaillogin);
+
+app.get("/logout", routes.getLogout);
 
 io.on("connection", (socket) => {
   socket.on("showMensajes", async (data) => {
