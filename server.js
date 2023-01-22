@@ -8,6 +8,13 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const routes = require("./routes");
 const mongoose = require("mongoose");
+const { fork } = require("child_process");
+
+require("dotenv").config();
+const yargs = require("yargs/yargs")(process.argv.slice(2));
+const args = yargs.default({ port: 8080 }).argv;
+
+console.log(args);
 
 const app = express();
 
@@ -23,9 +30,7 @@ function createHash(password) {
 }
 
 mongoose
-  .connect(
-    "mongodb+srv://gamal:k7mkUTu7XBAOeWfp@cluster0.6j5lnox.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(`${process.env.CONECCIONDB}`)
   .then(() => console.log("Connected to DB"))
   .catch((e) => {
     console.error(e);
@@ -116,7 +121,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || args.port;
 
 //SOCKET
 const httpServer = require("http").createServer(app);
@@ -142,8 +147,9 @@ app.engine(
 const Mensajes = require("./ClaseMensajes");
 const mensajes = new Mensajes("mensajes.json");
 const Usuarios = require("./models/usuarios.js");
+const { stdout, stderr } = require("process");
 
-httpServer.listen(8080, () =>
+httpServer.listen(port, () =>
   console.log(`Example app listening on port http://localhost:${port}`)
 );
 
@@ -169,6 +175,33 @@ app.get("/api/productos-test", auth, (req, res) => {
     });
   }
   res.render("./layouts/productosRandom.hbs", { products: str });
+});
+
+app.get("/info", (req, res) => {
+  console.log(process.memoryUsage());
+
+  const info = `Argumentos de entrada:${JSON.stringify(process.argv)},
+                Nombre de la plataforma:${process.platform},
+                Versión de node.js: ${process.version} 
+                Memoria total reservada:${JSON.stringify(
+                  process.memoryUsage()
+                )},
+                Path de ejecución: ${process.pid}
+                Process id: ${process.pid}
+                Carpeta del proyecto ${process.cwd()}`;
+
+  res.json(info);
+});
+
+app.get("/api/randoms", (req, res) => {
+  let cant = req.query.cant ? req.query.cant : 100000000;
+  let calculo = fork("./calculo.js");
+  calculo.send(cant);
+  calculo.on("message", (msg) => {
+    const { data, type } = msg;
+    console.log(data);
+    res.json(data);
+  });
 });
 
 app.get("/login", routes.getLogin);
