@@ -26,9 +26,9 @@ Instale las dependencias.
 -iniciar servidor "node server.js"
 -Golpear la ruta "http://localhost:8080/info".
 -Revisar la consola "Network" para ver el "Size".
--[Resultado](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png) - HTML
--[Breakdance](https://breakdance.github.io/breakdance/) - HTML
 ```
+## Resultados con Gzip
+-[Resultado compraracion]([https://breakdance.github.io/breakdance/](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png)) - Imagen
 
 
 
