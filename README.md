@@ -11,7 +11,7 @@ Instale las dependencias.
 
 ## loggueo (winston)
 ```sh
--Todas las rutas cuentas con un loggueo y se puede ver por consola los golpres a las rutas.
+-Todas las rutas cuentas con un loggueo y se puede ver por consola los request a las rutas.
 -Todos los try catch cuentan con un loggueo error que tambien se guaran en el archivo error.log
 -Todas la runtas inexistentes cuentan con un loggueo warning tambien se guaran en el archivo warn.log
 ```
