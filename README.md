@@ -28,11 +28,7 @@ Instale las dependencias.
 -Revisar la consola "Network" para ver el "Size".
 ```
 ## Resultados con Gzip
--[Resultado compraracion]([https://breakdance.github.io/breakdance/](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png)) - Imagen
-
-
-
-
+-[Resultado compraracion](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png) - Imagen
 
 ## Prueba con prof
 ```sh
