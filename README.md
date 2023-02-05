@@ -21,7 +21,7 @@ Instale las dependencias.
 -Iniciar servidor "node server.js"
 -Golpear la ruta "http://localhost:8080/info".
 -Revisar la consola "Network" para ver el "Size".
--Denener el servidor "Ctrl-c".
+-Detener el servidor "Ctrl-c".
 -Descomentar la linea 29 del archivo "server.js" para activar la compresion.
 -iniciar servidor "node server.js"
 -Golpear la ruta "http://localhost:8080/info".
@@ -32,24 +32,24 @@ Instale las dependencias.
 
 ## Prueba con prof
 ```sh
--Iniciar "node --prof server.js".
+-Iniciar servidor "node --prof server.js".
 -Golpear la ruta "http://localhost:8080/info" con Arillery "artillery quick --count 50 -n 20 http://localhost:8081/info > result_fork.txt".
--Denener el servidor "Ctrl-c".
+-Detener el servidor "Ctrl-c".
 -Decodificar la data generada "node 'nombre del archivo generado' > isolate-result.txt".
 ```
-## Resutado con prof
+## Resultado con prof
 -[Resultado](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/isolate-result.txt) - Documento
 
 ## Prueba con Autocannon & modo inspector
 ```sh
--Iniciar "node --inspect server.js".
+-Iniciar servidor "node --inspect server.js".
 -Abiri la siguiente direccion en google chrome "chrome://inspect".
 -Hacer click en "Open dedicated DevTools for Node".
 -Ir a la pestaña "Profiler" y hacer click en el boton "Start".
 -Golpear la ruta "http://localhost:8080/info" con Autocannon "npm test" (en una nueva consola).
--Esperar que retmine Autocannon.
+-Esperar que termine Autocannon.
 -Ir a la pestaña "Profiler" y hacer click en el boton "Stop".
--Denener el servidor "Ctrl-c".
+-Detener el servidor "Ctrl-c".
 ```
 ## Resultados con Autocannon & modo inspector
 -[Resultado Autocannon](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/Autocannon.png) - Imagen
@@ -57,10 +57,10 @@ Instale las dependencias.
 
 ## Prueba con Autocannon & 0x
 ```sh
--Iniciar "npm start".
+-Iniciar servidor "npm start".
 -Golpear la ruta "http://localhost:8080/info" con Autocannon "npm test" (en una nueva consola).
--Esperar que retmine Autocannon.
--Denener el servidor "Ctrl-c".
+-Esperar que termine Autocannon.
+-Detener el servidor "Ctrl-c".
 -Esperar que ox genere los documentos.
 ```
 ## Resultados con Autocannon & 0x
