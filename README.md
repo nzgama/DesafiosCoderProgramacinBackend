@@ -27,7 +27,7 @@ Instale las dependencias.
 -Golpear la ruta "http://localhost:8080/info".
 -Revisar la consola "Network" para ver el "Size".
 - [Resultado](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png) - HTML
-- [git-repo-url]: <https://github.com/joemccann/dillinger.git>
+[git-repo-url]: <https://github.com/joemccann/dillinger.git>
 ```
 
 ## Prueba con prof
