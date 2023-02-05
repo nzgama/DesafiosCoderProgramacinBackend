@@ -36,8 +36,9 @@ Instale las dependencias.
 -Golpear la ruta "http://localhost:8080/info" con Arillery "artillery quick --count 50 -n 20 http://localhost:8081/info > result_fork.txt".
 -Denener el servidor "Ctrl-c".
 -Decodificar la data generada "node 'nombre del archivo generado' > isolate-result.txt".
--Resultado "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/isolate-result.txt"
 ```
+## Resutado con prof
+-[Resultado](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/isolate-result.txt) - Documento
 
 ## Prueba con Autocannon & modo inspector
 ```sh
@@ -47,11 +48,12 @@ Instale las dependencias.
 -Ir a la pestaña "Profiler" y hacer click en el boton "Start".
 -Golpear la ruta "http://localhost:8080/info" con Autocannon "npm test" (en una nueva consola).
 -Esperar que retmine Autocannon.
--Resulrado Autocannon "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/Autocannon.png".
 -Ir a la pestaña "Profiler" y hacer click en el boton "Stop".
--Resultado "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/inspector.png"
 -Denener el servidor "Ctrl-c".
 ```
+## Resultados con Autocannon & modo inspector
+-[Resultado Autocannon](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/Autocannon.png) - Imagen
+-[Resultado Inspector](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/inspector.png) - Imagen
 
 ## Prueba con Autocannon & 0x
 ```sh
@@ -60,8 +62,8 @@ Instale las dependencias.
 -Esperar que retmine Autocannon.
 -Denener el servidor "Ctrl-c".
 -Esperar que ox genere los documentos.
--Resulrado Autocannon "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/Autocannon2.png".
--Resultado ox "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/prueba0x"
 ```
-
+## Resultados con Autocannon & 0x
+-[Resultado Autocannon](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/Autocannon2.png) - Imagen
+-[Resultado ox](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/prueba0x) - Carpeta
 
