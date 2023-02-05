@@ -11,8 +11,15 @@ Instale las dependencias.
 
 Prueba con Gzip
 ```sh
--iniciar servidor node server.js
--Artillery npm i -g artillery.
+-iniciar servidor "node server.js"
+-Golpear la ruta "http://localhost:8080/info".
+-Revisar la consola "Network" para ver el "Size".
+-Denener el servidor "Ctrl-c".
+-Descomentar la linea 29 del archivo "server.js" para activar la compresion.
+-iniciar servidor "node server.js"
+-Golpear la ruta "http://localhost:8080/info".
+-Revisar la consola "Network" para ver el "Size".
+-Resultado https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png
 ```
 
 node --prof server.js
@@ -33,8 +40,9 @@ npm test
 Instale las dependencias e inicie el servidor.
 ```sh
 -Istalar npm i
--Ejecutar en el proyecto el comando "npm start".
--Revisar la consola para acceder al "Home" de la app.
+-Golpear la ruta "http://localhost:8080/info".
+-Revisar la consola "Network" para ver el "Size".
+
 ```
 ## Características
 PUERTO DEL HOST
