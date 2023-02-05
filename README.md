@@ -19,7 +19,7 @@ Instale las dependencias.
 
 ## Prueba con Gzip
 ```sh
--iniciar servidor "node server.js"
+-Iniciar servidor "node server.js"
 -Golpear la ruta "http://localhost:8080/info".
 -Revisar la consola "Network" para ver el "Size".
 -Denener el servidor "Ctrl-c".
@@ -32,42 +32,36 @@ Instale las dependencias.
 
 ## Prueba con prof
 ```sh
--iniciar "node --prof server.js".
--Golpear la ruta "http://localhost:8080/info" con arillery "artillery quick --count 50 -n 20 http://localhost:8081/info > result_fork.txt".
+-Iniciar "node --prof server.js".
+-Golpear la ruta "http://localhost:8080/info" con Arillery "artillery quick --count 50 -n 20 http://localhost:8081/info > result_fork.txt".
 -Denener el servidor "Ctrl-c".
 -Decodificar la data generada "node 'nombre del archivo generado' > isolate-result.txt".
--iniciar servidor "node server.js"
--Golpear la ruta "http://localhost:8080/info".
--Revisar la consola "Network" para ver el "Size".
--Resultado "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png"
+-Resultado "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/isolate-result.txt"
 ```
 
-
-artillery quick --count 50 -n 20 http://localhost:8081/info > result_fork.txt 
-
-node --prof-process isolate-00000222112DFD10-11816-v8.log > isolate-result.txt
-
-node --inspect server.js
-
-chrome://inspect
-
-
-npm test
-
-
-Instale las dependencias e inicie el servidor.
+## Prueba con Autocannon & modo inspector
 ```sh
--Istalar npm i
--Golpear la ruta "http://localhost:8080/info".
--Revisar la consola "Network" para ver el "Size".
-```
-## Características
-PUERTO DEL HOST
-```sh
-- Para elegir el puero "node server.js --port 9000"
+-Iniciar "node --inspect server.js".
+-Abiri la siguiente direccion en google chrome "chrome://inspect".
+-Hacer click en "Open dedicated DevTools for Node".
+-Ir a la pestaña "Profiler" y hacer click en el boton "Start".
+-Golpear la ruta "http://localhost:8080/info" con Autocannon "npm test" (en una nueva consola).
+-Esperar que retmine Autocannon.
+-Resulrado Autocannon "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/Autocannon.png".
+-Ir a la pestaña "Profiler" y hacer click en el boton "Stop".
+-Resultado "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/inspector.png"
+-Denener el servidor "Ctrl-c".
 ```
 
-INFO DEL PROYECTO
+## Prueba con Autocannon & 0x
 ```sh
-- ruta '/info' 
+-Iniciar "npm start".
+-Golpear la ruta "http://localhost:8080/info" con Autocannon "npm test" (en una nueva consola).
+-Esperar que retmine Autocannon.
+-Denener el servidor "Ctrl-c".
+-Esperar que ox genere los documentos.
+-Resulrado Autocannon "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/Autocannon2.png".
+-Resultado ox "https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/prueba0x"
 ```
+
+
