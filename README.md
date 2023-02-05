@@ -27,6 +27,7 @@ Instale las dependencias.
 -Golpear la ruta "http://localhost:8080/info".
 -Revisar la consola "Network" para ver el "Size".
 -Resultado [This link](https://github.com/nzgama/DesafiosCoderProgramacinBackend/blob/LoggersGzipAn%C3%A1lisisPerformance/gzipImg.png).
+[This link](http://example.net/) has no title attribute.
 ```
 
 ## Prueba con prof
