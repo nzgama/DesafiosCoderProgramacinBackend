@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "0x server.js",
+    "start": "node server.js",
+    "dev": "0x server.js",
     "test": "nodemon benchmark.js"
   },
   "dependencies": {
