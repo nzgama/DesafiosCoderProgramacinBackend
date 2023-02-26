@@ -10,29 +10,49 @@
                 </a>
                 <a class="brand" href="/">{{app_name}}</a>
                 <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li class=""><a href="/">Home</a></li>
-                        <li><a href="/api/productos-test">Productos Random</a></li>
-                        <li><a href="/logout">Cerrar Sesion</a></li>
-                    </ul>
+                    {{> navbar}}
                 </div>
             </div>
-        </div>
-        <h3>Chat</h3>
-        <p>Envie sus mensajes.</p>
-        <form onsubmit="enviarMsg();return false;">
-            <input id="input-nombre" placeholder="Nombre" required="true" />
-            <input id="input-apellido" placeholder="Apellido" required="true" />
-            <input id="input-edad" placeholder="Edad" required="true" />
-            <input id="input-alias" placeholder="Alias" required="true" />
-            <input id="input-email" placeholder="E-mail" required="true" /><br />
-            <input id="input-msg" placeholder="Mensaje" required="true" />
-            <input type="submit" value="ENVIAR!" />
-        </form>
-        <div id="div-list-msgs">
         </div>
     </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="./index.js"></script>
+<script>
+    const eliminar = (id) => {
+        const data = { id: id };
+        fetch(`/api/productos/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
+    const editar = (id) => {
+        const data = { id: id };
+        fetch('/api/productos', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+</script>
