@@ -4,8 +4,6 @@ const compression = require("compression");
 const MongoStore = require("connect-mongo");
 const { engine } = require("express-handlebars");
 const express = require("express");
-const { Router } = express;
-const winston = require("winston");
 const session = require("express-session");
 const passport = require("passport");
 const mongoose = require("mongoose");
@@ -15,20 +13,10 @@ const yargs = require("yargs/yargs")(process.argv.slice(2));
 const args = yargs.default({ port: 8080 }).argv;
 const app = express();
 
-const routerProductos = Router();
-const routerCarrito = Router();
-const administrador = true;
+const routerProductos = require("./rutas/productos.js");
+const routerCarrito = require("./rutas/carrito.js");
 
 require("dotenv").config();
-
-const logger = winston.createLogger({
-  level: "warn",
-  transports: [
-    new winston.transports.Console({ level: "verbose" }),
-    new winston.transports.File({ filename: "error.log", level: "error" }),
-    new winston.transports.File({ filename: "warn.log", level: "warning" }),
-  ],
-});
 
 app.use(compression());
 
@@ -163,12 +151,6 @@ app.engine(
 //CLASS
 const Usuarios = require("./models/usuarios.js");
 
-const ProductosDao = require(`./daos/productos/ProductosDaosMongo.js`);
-const productos = new ProductosDao();
-
-const CarritoDao = require(`./daos/carritos/CarritoDaosMongo.js`);
-const carrito = new CarritoDao();
-
 const auth = (req, res, next) => {
   if (req.session && req.session.user) {
     return next();
@@ -219,7 +201,6 @@ app.post(
   passport.authenticate("signup", { failureRedirect: "signup" }),
   async (req, res) => {
     await transporter.sendMail(mailOptions);
-    logger.log("info", "/signup - POST");
     res.render("./layouts/login.hbs", { message: "success in registering" });
   }
 );
@@ -227,86 +208,3 @@ app.post(
 app.get("/faillogin", routes.getFaillogin);
 
 app.get("/logout", routes.getLogout);
-
-routerCarrito.get("/", async (req, res) => {
-  const carritos = await carrito.getAllCarritos();
-  res.render("./carrito/index.hbs", { carritos: carritos });
-});
-
-routerCarrito.get("/:id/productos", async (req, res) => {
-  const { id } = req.params;
-  const carritos = await carrito.getCarritos(id);
-  res.render("./carrito/view.hbs", {
-    carritos: carritos.productos,
-    id: carritos.id,
-  });
-});
-
-routerCarrito.post("/", async (req, res) => {
-  await carrito.nuevoCarrito();
-  if (administrador) {
-    res.json("ok");
-  } else {
-    res.render("./partials/permissions");
-  }
-});
-
-routerCarrito.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-  if (administrador) {
-    const deletCarritos = await carrito.deleteCarritos(id);
-    res.json("ok");
-  } else {
-    res.render("./partials/permissions");
-  }
-});
-
-routerCarrito.delete("/:carritoId/productos/:productoId", async (req, res) => {
-  const { productoId } = req.params;
-  const { carritoId } = req.params;
-  if (administrador) {
-    await carrito.deleteProduct(carritoId, productoId);
-    res.json("ok");
-  } else {
-    res.render("./partials/permissions");
-  }
-});
-
-routerCarrito.get("/edit/:id", async (req, res) => {
-  const { id } = req.params;
-  const carritos = await carrito.getCarritos(id);
-  const products = await productos.getAllProducts();
-  if (administrador) {
-    res.render("./carrito/edit", {
-      carritos: carritos.productos,
-      id: id,
-      products: products,
-    });
-  } else {
-    res.render("./partials/permissions");
-  }
-});
-
-routerCarrito.post("/:carritoId/productos", async (req, res) => {
-  const { id } = req.body;
-  const { carritoId } = req.params;
-  if (administrador) {
-    await carrito.saveProduct(carritoId, id);
-    res.json("ok");
-  } else {
-    res.render("./partials/permissions");
-  }
-});
-
-routerProductos.get("/", async (req, res) => {
-  const products = await productos.getAllProducts();
-  res.render("./productos/index", { products: products });
-});
-
-routerProductos.get("/add", async (req, res) => {
-  if (administrador) {
-    res.render("./productos/add");
-  } else {
-    res.render("./partials/permissions");
-  }
-});
