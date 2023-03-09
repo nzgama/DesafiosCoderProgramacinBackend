@@ -1,11 +1,11 @@
-const { getProductos } = require("../servicios/productos.js");
+const { getProductos } = require("../services/productos.js");
 const {
   getCarritos,
   nuevo,
   borrar,
   borrarProducto,
   guardarProducto,
-} = require("../servicios/carrito.js");
+} = require("../services/carrito.js");
 
 async function index(req, res) {
   const datos = await getCarritos();

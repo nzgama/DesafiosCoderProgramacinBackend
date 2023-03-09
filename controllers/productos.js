@@ -1,4 +1,4 @@
-const { getProductos } = require("../servicios/productos.js");
+const { getProductos } = require("../services/productos.js");
 
 async function index(req, res) {
   const datos = await getProductos();

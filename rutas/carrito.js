@@ -8,7 +8,7 @@ const {
   eliminarProducto,
   edit,
   postProducto,
-} = require("../controladores/carrito.js");
+} = require("../controllers/carrito.js");
 
 const routerCarrito = Router();
 

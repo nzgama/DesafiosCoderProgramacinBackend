@@ -102,4 +102,10 @@ class Productos extends ContenedorMongo {
   }
 }
 
-module.exports = Productos;
+const productos = new Productos();
+
+async function getProductos() {
+  return await productos.getAllProducts();
+}
+
+module.exports = { getProductos };
