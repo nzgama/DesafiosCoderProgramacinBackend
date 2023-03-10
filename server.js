@@ -6,7 +6,7 @@ const { engine } = require("express-handlebars");
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
-const mongoose = require("mongoose");
+const { connect } = require("mongoose");
 const bcrypt = require("bcrypt");
 const routes = require("./routes");
 const yargs = require("yargs/yargs")(process.argv.slice(2));
@@ -28,13 +28,16 @@ function createHash(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 }
 
-mongoose
-  .connect(`${process.env.CONECCIONDB}`)
-  .then(() => console.log("Connected to DB"))
-  .catch((e) => {
-    console.error(e);
-    throw "can not connect to the db";
-  });
+const connectMG = async () => {
+  try {
+    await connect(`${process.env.CONECCIONDB}`);
+  } catch (error) {
+    console.error(error);
+    throw "can not connect to the bd";
+  }
+};
+
+connectMG();
 
 passport.use(
   "login",
