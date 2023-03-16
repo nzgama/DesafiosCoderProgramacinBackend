@@ -13,6 +13,10 @@ const productoSchema = Schema({
     type: Number,
     required: true,
   },
+  precio: {
+    type: Number,
+    required: true,
+  },
   timestamp: {
     type: String,
     required: true,
@@ -66,6 +70,7 @@ class DAOmongo {
         nombre: body.nombre,
         codigo: body.codigo,
         stock: body.stock,
+        precio: body.precio,
         timestamp: body.timestamp,
         foto: body.foto,
         descripcion: body.descripcion,
