@@ -1,9 +1,10 @@
 # Desafíos Coderhouse Programación Backend
-## Desafío "Mejorar la arquitectura de nuestra API" 
+## Desafío "Testeamos nuestra API REST" 
 ## Instalación
 
 Instale las dependencias e inice el servidor.
 ```sh
 -Dependencias "npm i"
 -npm run dev
+-npm run test
 ```
