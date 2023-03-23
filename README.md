@@ -1,10 +1,9 @@
 # Desafíos Coderhouse Programación Backend
-## Desafío "Testeamos nuestra API REST" 
+## Desafío "Reformar para usar GraphQL" 
 ## Instalación
 
 Instale las dependencias e inice el servidor.
 ```sh
 -Dependencias "npm i"
--npm run dev
--npm run test
+-npm run start
 ```
